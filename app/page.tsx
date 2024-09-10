@@ -1,6 +1,4 @@
-import BusinessCard from "@/components/BusinessCard";
 import RainEffect from "@/components/RainEffect";
-import Image from "next/image";
 
 export default function Home() {
   return (

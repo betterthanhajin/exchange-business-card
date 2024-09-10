@@ -50,7 +50,7 @@ const RainEffect: React.FC = () => {
 
   const animate = (time: number) => {
     if (timeRef.current !== undefined) {
-      const delta = (time - timeRef.current) / 1000;
+      // const delta = (time - timeRef.current) / 1000;
       const turbulence = document.getElementById("turbulence");
       const displacement = document.getElementById("displacement");
 
