@@ -91,9 +91,7 @@ const RainEffect: React.FC = () => {
               windowWidth ? (mousePosition.x / windowWidth - 0.5) * 10 : 0
             }px, 0px)`,
           }}
-        >
-          {index}
-        </div>
+        ></div>
       ))}
       <svg width="700" height="700">
         <defs>
@@ -117,8 +115,6 @@ const RainEffect: React.FC = () => {
         </defs>
       </svg>
       <div className="content" style={{ width: 700, height: 700 }}>
-        <p>rainy days</p>
-        <h1>**********</h1>
         <BusinessCard />
       </div>
       <style jsx>{`
