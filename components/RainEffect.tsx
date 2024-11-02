@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import BusinessCard from "./BusinessCard";
 import ImageUploader from "./ImageUploader";
 
 interface MousePosition {

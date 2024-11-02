@@ -2,11 +2,9 @@ import Anthropic from "@anthropic-ai/sdk";
 
 export const ImageToEle = async ({
   ImageUrl,
-  textInput,
   apiKey,
 }: {
   ImageUrl: string;
-  textInput: string;
   apiKey: string | undefined;
 }) => {
   console.log("이미지 URL:", ImageUrl);
@@ -14,7 +12,6 @@ export const ImageToEle = async ({
     apiKey: apiKey,
     dangerouslyAllowBrowser: true,
   });
-  console.log("init", apiKey);
   const contentObj = await anthropic.messages.create({
     model: "claude-3-5-sonnet-20241022",
     max_tokens: 1000,

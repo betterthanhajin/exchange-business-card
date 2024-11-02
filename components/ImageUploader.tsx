@@ -45,8 +45,6 @@ export default function ImageUploader() {
       console.log("업로드된 이미지 ", base64Data);
       const result = ImageToEle({
         ImageUrl: base64Data as string,
-        textInput:
-          "Please analyze the provided image and transform it into a coded implementation using appropriate web technologies (HTML, CSS, SVG) to reproduce the visual output",
         apiKey: process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY,
       });
       console.log("결과값", result);
