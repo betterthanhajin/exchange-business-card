@@ -1,4 +1,5 @@
 "use client";
+import ImageUploader from "@/components/ImageUploader";
 import {
   QuietTransmit,
   QuietTransmitInstance,

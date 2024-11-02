@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import BusinessCard from "./BusinessCard";
+import ImageUploader from "./ImageUploader";
 
 interface MousePosition {
   x: number;
@@ -115,7 +116,7 @@ const RainEffect: React.FC = () => {
         </defs>
       </svg>
       <div className="content" style={{ width: 700, height: 700 }}>
-        <BusinessCard />
+        <ImageUploader />
       </div>
       <style jsx>{`
         .rain-container {
