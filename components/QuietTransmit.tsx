@@ -1,8 +1,29 @@
 import Script from "next/script";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 declare let window: typeof Window & {
-  Quiet: any;
+  Quiet: {
+    init: (options: {
+      profilesPrefix: string;
+      memoryInitializerPrefix: string;
+      libfecPrefix: string;
+    }) => void;
+    receiver: (options: {
+      profile: string;
+      onReceive: (recvPayload: ArrayBuffer) => void;
+      onCreateFail: (reason: string) => void;
+      onReceiveFail: (failCount: number) => void;
+    }) => void;
+    transmitter: (options: { profile: string; onFinish: () => void }) => {
+      transmit: (payload: ArrayBuffer) => void;
+    };
+    addReadyCallback: (
+      onReady: () => void,
+      onFail: (reason: string) => void
+    ) => void;
+    ab2str: (buffer: ArrayBuffer) => string;
+    str2ab: (text: string) => ArrayBuffer;
+  };
 };
 
 export interface QuietTransmitInstance {
@@ -89,7 +110,7 @@ export const QuietTransmit = ({
 
       const sendText = async (text: string) => {
         const payload = window.Quiet.str2ab(text);
-        return new Promise<void>((resolve, reject) => {
+        return new Promise<void>((resolve) => {
           const senderInstance = window.Quiet.transmitter({
             profile,
             onFinish: () => {
