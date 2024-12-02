@@ -31,21 +31,20 @@ export default function Home() {
           console.log(`Failed to create receiver: ${reason}`);
         }}
       />
-      <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-        <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+      <div className="flex flex-col gap-72 items-center justify-center min-h-screen p-8">
+        <div>
           <RainEffect />
-
-          <button
-            className="relative w-32 h-12 bg-white text-black rounded-md"
-            onClick={async () => {
-              console.log("Sending: Hello, World!");
-              await quietInstance?.sendText("Hello, World!");
-              console.log("Sent: Hello, World!");
-            }}
-          >
-            Send Test
-          </button>
-        </main>
+        </div>
+        <button
+          className="relative w-32 h-12 bg-white text-black rounded-md"
+          onClick={async () => {
+            console.log("Sending: Hello, World!");
+            await quietInstance?.sendText("Hello, World!");
+            console.log("Sent: Hello, World!");
+          }}
+        >
+          Send
+        </button>
       </div>
     </>
   );

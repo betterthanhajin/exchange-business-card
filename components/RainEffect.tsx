@@ -114,7 +114,7 @@ const RainEffect: React.FC = () => {
           </filter>
         </defs>
       </svg>
-      <div className="content" style={{ width: 700, height: 700 }}>
+      <div className="content">
         <ImageUploader />
       </div>
       <style jsx>{`
