@@ -3,10 +3,11 @@
 import React, { useCallback, useState } from "react";
 import { Upload } from "lucide-react";
 import { ImageToEle } from "@/app/api/claude-connect/image-to-element";
+import Image from "next/image";
 
 export default function ImageUploader() {
   const [isDragging, setIsDragging] = useState(false); // dragging 상태
-
+  const [imgSrc, setImgSrc] = useState(""); // 이미지 src
   // 드래그 이벤트 핸들러
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -29,7 +30,8 @@ export default function ImageUploader() {
   const handleFiles = useCallback((file: File | undefined) => {
     const fileEle = file;
     if (!fileEle) return;
-
+    setImgSrc(URL.createObjectURL(file as Blob));
+    console.log("img", imgSrc);
     // 파일 타입 체크
     if (!fileEle.type.startsWith("image/")) {
       alert("이미지 파일만 업로드 가능합니다.");
@@ -39,15 +41,13 @@ export default function ImageUploader() {
     const reader = new FileReader();
     reader.onload = (e) => {
       const ImageFile = e.target?.result as string;
-
-      //base64 데이터만 추출
       const base64Data = ImageFile.split(",")[1];
-      console.log("업로드된 이미지 ", base64Data);
-      const result = ImageToEle({
-        ImageUrl: base64Data as string,
-        apiKey: process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY,
-      });
-      console.log("결과값", result);
+      // console.log("업로드된 이미지 ", base64Data);
+      // const result = ImageToEle({
+      //   ImageUrl: base64Data as string,
+      //   apiKey: process.env.NEXT_PUBLIC_ANTHROPIC_API_KEY,
+      // });
+      // console.log("결과값", result);
     };
     reader.readAsDataURL(file);
   }, []);
@@ -60,6 +60,7 @@ export default function ImageUploader() {
       setIsDragging(false);
       const target = e.target as HTMLInputElement;
       const file = target.files?.[0];
+      setImgSrc(URL.createObjectURL(file as Blob));
       handleFiles(file);
     },
     [handleFiles]
@@ -69,6 +70,9 @@ export default function ImageUploader() {
   const handleFileInput = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
+      console.log("file", file);
+      setImgSrc(URL.createObjectURL(file as Blob));
+      console.log("img", imgSrc);
       handleFiles(file);
     },
     [handleFiles]
@@ -91,7 +95,16 @@ export default function ImageUploader() {
           onChange={handleFileInput}
           accept="image/*"
         />
-
+        {imgSrc && (
+          <Image
+            id="image-preview"
+            alt="image-preview"
+            className="object-cover rounded-lg mb-4"
+            src={imgSrc}
+            width={500}
+            height={300}
+          />
+        )}
         <div className="flex flex-col items-center justify-center gap-2">
           <Upload className="w-12 h-12 text-gray-400" />
           <p className="text-lg font-medium text-gray-600">
