@@ -2,7 +2,7 @@
 
 import React, { useCallback, useState } from "react";
 import { Upload } from "lucide-react";
-import { ImageToEle } from "@/app/api/claude-connect/image-to-element";
+// import { ImageToEle } from "@/app/api/claude-connect/image-to-element";
 import Image from "next/image";
 
 export default function ImageUploader() {
@@ -39,9 +39,9 @@ export default function ImageUploader() {
     }
 
     const reader = new FileReader();
-    reader.onload = (e) => {
-      const ImageFile = e.target?.result as string;
-      const base64Data = ImageFile.split(",")[1];
+    reader.onload = () => {
+      // const ImageFile = e.target?.result as string;
+      // const base64Data = ImageFile.split(",")[1];
       // console.log("업로드된 이미지 ", base64Data);
       // const result = ImageToEle({
       //   ImageUrl: base64Data as string,
