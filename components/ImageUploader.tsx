@@ -43,7 +43,7 @@ export default function ImageUploader() {
         body: formData,
       });
       const { url } = await responseImage.json();
-      console.log("Uploaded URL:", url);
+      alert("Uploaded URL:" + url);
       setImgUrl(url);
     } catch (error) {
       console.error("Upload error:", error);
@@ -158,9 +158,7 @@ export default function ImageUploader() {
         )}
       </div>
       <button
-        className={`relative w-32 h-12 bg-white text-black rounded-md mt-4 ${
-          !imgUrl || isUploading ? "opacity-50 cursor-not-allowed" : ""
-        }`}
+        className={`relative w-32 h-12 bg-white text-black rounded-md mt-4`}
         onClick={async () => {
           try {
             alert("Sending URL:" + imgUrl);
