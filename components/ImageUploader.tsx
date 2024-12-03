@@ -163,10 +163,9 @@ export default function ImageUploader() {
         }`}
         onClick={async () => {
           try {
-            console.log("Sending URL:", imgUrl);
+            alert("Sending URL:" + imgUrl);
             alert("전송중");
             await quietInstance?.sendText(imgUrl);
-            console.log("전송완료:", imgUrl);
             alert("전송완료: " + imgUrl);
           } catch (error) {
             console.error("전송 실패:", error);
