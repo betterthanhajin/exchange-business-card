@@ -102,13 +102,13 @@ export default function ImageUploader() {
           setQuietInstance(instance);
         }}
         onReadyToReceive={() => {
-          console.log("Ready to receive");
+          alert("Ready to receive");
         }}
         onReceive={(text) => {
-          console.log(`Received: ${text}`);
+          alert(`Received: ${text}`);
         }}
         onReceiveFail={(failCount) => {
-          console.log(`Failed to receive ${failCount} times`);
+          alert(`Failed to receive ${failCount} times`);
         }}
         onReceiverCreateFail={(reason) => {
           console.log(`Failed to create receiver: ${reason}`);
@@ -160,11 +160,18 @@ export default function ImageUploader() {
       <button
         className={`relative w-32 h-12 bg-white text-black rounded-md mt-4`}
         onClick={async () => {
+          if (!quietInstance) {
+            alert("Quiet 인스턴스가 아직 준비되지 않았습니다.");
+            return;
+          }
           try {
             alert("Sending URL:" + imgUrl);
             alert("전송중");
-            await quietInstance?.sendText(imgUrl);
+            await quietInstance.sendText(imgUrl);
             alert("전송완료: " + imgUrl);
+            if (quietInstance.onReceive) {
+              await quietInstance.onReceive(imgUrl);
+            }
           } catch (error) {
             console.error("전송 실패:", error);
             alert("전송 실패");

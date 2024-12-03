@@ -28,6 +28,7 @@ declare let window: typeof Window & {
 
 export interface QuietTransmitInstance {
   sendText: (text: string) => unknown;
+  onReceive?: (text: string) => unknown;
 }
 
 export interface QuietTransmitProps {
@@ -121,11 +122,11 @@ export const QuietTransmit = ({
           senderInstance.transmit(payload);
         });
       };
-      onReady?.({ sendText });
+      onReady?.({ sendText, onReceive });
     };
 
     const onQuietFail = (reason: string) => {
-      console.error("Quiet failed to initialize:", reason);
+      alert("Quiet failed to initialize:" + reason);
     };
 
     window.Quiet.addReadyCallback(onQuietReady, onQuietFail);
