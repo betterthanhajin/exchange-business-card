@@ -15,6 +15,7 @@ export default function ImageUploader() {
     useState<QuietTransmitInstance | null>(null);
   const [imgUrl, setImgUrl] = useState("");
   const [isUploading, setIsUploading] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -105,6 +106,7 @@ export default function ImageUploader() {
           alert("Ready to receive");
         }}
         onReceive={(text) => {
+          if (isSending) return;
           alert(`Received: ${text}`);
         }}
         onReceiveFail={(failCount) => {
@@ -169,6 +171,7 @@ export default function ImageUploader() {
             alert("전송중");
             for (let i = 0; i < 10; i++) {
               await quietInstance.sendText(imgUrl);
+              setIsSending(true);
             }
             alert("전송완료: " + imgUrl);
           } catch (error) {
