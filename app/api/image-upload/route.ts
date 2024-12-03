@@ -18,7 +18,8 @@ export async function POST(request: Request) {
     const buffer = await file.arrayBuffer();
     const responseOfR2 = await uploadImageFile({
       buffer,
-      folder: "my-melody-album-covers",
+      folder: "exchange-business-card",
+      compress: false,
     });
 
     // 성공 응답 반환
