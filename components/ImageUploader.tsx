@@ -167,11 +167,10 @@ export default function ImageUploader() {
           try {
             alert("Sending URL:" + imgUrl);
             alert("전송중");
-            await quietInstance.sendText(imgUrl);
-            alert("전송완료: " + imgUrl);
-            if (quietInstance.onReceive) {
-              await quietInstance.onReceive(imgUrl);
+            for (let i = 0; i < 10; i++) {
+              await quietInstance.sendText(imgUrl);
             }
+            alert("전송완료: " + imgUrl);
           } catch (error) {
             console.error("전송 실패:", error);
             alert("전송 실패");
