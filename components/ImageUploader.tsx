@@ -3,10 +3,16 @@
 import React, { useCallback, useState } from "react";
 import { Upload } from "lucide-react";
 import Image from "next/image";
+import {
+  QuietTransmit,
+  QuietTransmitInstance,
+} from "@/components/QuietTransmit";
 
 export default function ImageUploader() {
   const [isDragging, setIsDragging] = useState(false);
   const [imgSrc, setImgSrc] = useState("");
+  const [quietInstance, setQuietInstance] =
+    useState<QuietTransmitInstance | null>(null);
 
   const handleDragEnter = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -28,7 +34,13 @@ export default function ImageUploader() {
   const handleFiles = useCallback((file: File | undefined) => {
     const fileEle = file;
     if (!fileEle) return;
+    console.log("업로드된 파일", fileEle);
+    fileEle.arrayBuffer().then((buffer) => {
+      console.log("업로드된 파일 버퍼", buffer);
+    });
+
     setImgSrc(URL.createObjectURL(file as Blob));
+    console.log("업로드된 파일url", imgSrc);
 
     if (!fileEle.type.startsWith("image/")) {
       alert("이미지 파일만 업로드 가능합니다.");
@@ -57,7 +69,9 @@ export default function ImageUploader() {
       const target = e.target as HTMLInputElement;
       const file = target.files?.[0];
       if (file) {
-        setImgSrc(URL.createObjectURL(file as Blob));
+        const fileUrl = URL.createObjectURL(file);
+        console.log("업로드된 파일url", fileUrl);
+        setImgSrc(fileUrl);
         handleFiles(file);
       }
     },
@@ -77,6 +91,25 @@ export default function ImageUploader() {
 
   return (
     <div className="w-full max-w-xl mx-auto p-4 sm:p-6 md:p-8">
+      <QuietTransmit
+        profile="ultrasonic"
+        onReady={(instance) => {
+          console.log("QuietTransmit Ready");
+          setQuietInstance(instance);
+        }}
+        onReadyToReceive={() => {
+          console.log("Ready to receive");
+        }}
+        onReceive={(text) => {
+          console.log(`Received: ${text}`);
+        }}
+        onReceiveFail={(failCount) => {
+          console.log(`Failed to receive ${failCount} times`);
+        }}
+        onReceiverCreateFail={(reason) => {
+          console.log(`Failed to create receiver: ${reason}`);
+        }}
+      />
       <div
         className={`relative border-2 border-dashed rounded-lg p-4 sm:p-6 md:p-8 text-center cursor-pointer
           ${isDragging ? "border-blue-500 bg-blue-50" : "border-gray-300"}
@@ -116,6 +149,16 @@ export default function ImageUploader() {
           </div>
         )}
       </div>
+      <button
+        className="relative w-32 h-12 bg-white text-black rounded-md mt-4"
+        onClick={async () => {
+          console.log("Sending: Hello, World!", imgSrc);
+          await quietInstance?.sendText(imgSrc);
+          console.log("Sent: Hello, World!", imgSrc);
+        }}
+      >
+        Send
+      </button>
     </div>
   );
 }
