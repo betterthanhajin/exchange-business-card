@@ -162,8 +162,6 @@ export default function ImageUploader() {
           !imgUrl || isUploading ? "opacity-50 cursor-not-allowed" : ""
         }`}
         onClick={async () => {
-          if (!imgUrl || isUploading) return;
-
           try {
             console.log("Sending URL:", imgUrl);
             alert("전송중");
@@ -175,7 +173,6 @@ export default function ImageUploader() {
             alert("전송 실패");
           }
         }}
-        disabled={!imgUrl || isUploading}
       >
         Send
       </button>
